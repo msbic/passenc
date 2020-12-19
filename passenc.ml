@@ -6,10 +6,17 @@ let hex s = transform_string (Hexa.decode()) s
 let hexbytes s = Bytes.of_string (hex s)
 let tohex s = transform_string (Hexa.encode()) s
 
+<<<<<<< HEAD
 let stringifyByte b =  sprintf "\\x%2.2X" (Char.to_int b)
     (*match Char.is_print b with
     | true -> String.of_char b;
     | false -> sprintf "\\x%2.2X" (Char.to_int b)*)
+=======
+let stringifyByte b =
+    match Char.is_print b with
+    | true -> String.of_char b;
+    | false -> sprintf "\\x%2.2X" (Char.to_int b)
+>>>>>>> cd82932600f1a30291c4f7d3e5a44553e2053de0
 
 let stringify bytes =
     (* printf "%d\n" (String.length bytes); *)
@@ -43,4 +50,8 @@ let () =
             | "e" -> processFile Sys.argv.(3) (encrypt Sys.argv.(2) iv) 
             | "d" -> processFile Sys.argv.(3) (decrypt Sys.argv.(2) iv) 
             | _ -> printf "%s" usage
+<<<<<<< HEAD
         end
+=======
+        end
+>>>>>>> cd82932600f1a30291c4f7d3e5a44553e2053de0
