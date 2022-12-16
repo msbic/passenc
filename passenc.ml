@@ -1,29 +1,18 @@
 open Cryptokit
-open Core_kernel
+open Core
 open Printf
 
 let hex s = transform_string (Hexa.decode()) s
 let hexbytes s = Bytes.of_string (hex s)
 let tohex s = transform_string (Hexa.encode()) s
 
-<<<<<<< HEAD
-let stringifyByte b =  sprintf "\\x%2.2X" (Char.to_int b)
-    (*match Char.is_print b with
-    | true -> String.of_char b;
-    | false -> sprintf "\\x%2.2X" (Char.to_int b)*)
-=======
 let stringifyByte b =
-    match Char.is_print b with
-    | true -> String.of_char b;
-    | false -> sprintf "\\x%2.2X" (Char.to_int b)
->>>>>>> cd82932600f1a30291c4f7d3e5a44553e2053de0
-
+    sprintf "\\x%2.2X" (Char.to_int b)
+    
 let stringify bytes =
-    (* printf "%d\n" (String.length bytes); *)
     let ar = String.to_array bytes in
     let s = String.concat_array (Array.map ~f:(fun x -> stringifyByte x) ar) in s
-    (* Scanf.unescaped s *)
-
+    
 let encrypt key iv plainText = 
     let aes = Cryptokit.Cipher.(aes ~mode:CBC ~pad:Cryptokit.Padding.length ~iv:iv key Encrypt) in
     stringify (Cryptokit.transform_string aes plainText)
@@ -39,19 +28,16 @@ let processFile filename func =
     In_channel.iter_lines file ~f:(fun line -> printf "%s\n" (func line)))
 
 let () =
-    if (Array.length Sys.argv) < 4 then
-        printf "%s" ("Not enough arguments " ^ usage)
+  let sysArgs = Sys.get_argv() in 
+    if (Array.length sysArgs) < 4 then
+        printf "%s\n" ("Not enough arguments " ^ usage)
     else
     let iv = "0123456789012345" in
         begin
-            match Sys.argv.(1) with
+            match sysArgs.(1) with
             (* | "e" -> printf "%s\n" (stringify (encrypt Sys.argv.(3) Sys.argv.(2) iv))
             | "d" -> printf "%s " Sys.argv.(3); printf "%s\n" (decrypt (Scanf.unescaped Sys.argv.(3)) Sys.argv.(2) iv) *)
-            | "e" -> processFile Sys.argv.(3) (encrypt Sys.argv.(2) iv) 
-            | "d" -> processFile Sys.argv.(3) (decrypt Sys.argv.(2) iv) 
-            | _ -> printf "%s" usage
-<<<<<<< HEAD
+            | "e" -> processFile sysArgs.(3) (encrypt sysArgs.(2) iv) 
+            | "d" -> processFile sysArgs.(3) (decrypt sysArgs.(2) iv) 
+            | _ -> printf "%s\n" usage
         end
-=======
-        end
->>>>>>> cd82932600f1a30291c4f7d3e5a44553e2053de0
